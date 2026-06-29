@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+/* next-themes toggles `.dark` / `.light` on <html>. Drive Tailwind's dark: variant off it. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Theme surface tokens ─────────────────────────────────────────────────────
+   Components reference var(--s-*) (marketing surface) and var(--dm-*) (app DS).
+   Light/day values on :root; night values under .dark. */
+:root {
+  /* marketing surface — day */
+  --s-bg: #f5f6f8;
+  --s-surface: #ffffff;
+  --s-surface-alt: #f8f9fb;
+  --s-card: #ffffff;
+  --s-card-2: #f0f2f5;
+  --s-ink: #374151;
+  --s-muted: #6b7280;
+  --s-lo: #79818f;
+  --s-border: #e6e9f0;
+
+  /* app DS — light */
+  --dm-bg: #f5f6f8;
+  --dm-surface: #ffffff;
+  --dm-surface2: #f0f2f5;
+  --dm-border: #e6e9f0;
+  --dm-ink: #374151;
+  --dm-muted: #6b7280;
+  --dm-lo: #9ca3af;
+
+  --rail: 1080px;
+  --background: var(--s-bg);
+  --foreground: var(--s-ink);
+}
+
+.dark {
+  /* marketing surface — night */
+  --s-bg: #070118;
+  --s-surface: #0d0523;
+  --s-surface-alt: #0a0420;
+  --s-card: #0d0523;
+  --s-card-2: #140a2e;
+  --s-ink: #f4f2fa;
+  --s-muted: #9ca0ae;
+  --s-lo: #79818f;
+  --s-border: rgba(255, 255, 255, 0.1);
+
+  /* app DS — dark */
+  --dm-bg: #070118;
+  --dm-surface: #0d0523;
+  --dm-surface2: #140a2e;
+  --dm-border: rgba(255, 255, 255, 0.1);
+  --dm-ink: #f4f2fa;
+  --dm-muted: #9ca0ae;
+  --dm-lo: #79818f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sora), "Sora", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--s-bg);
+  color: var(--s-ink);
+  font-family: var(--font-sora), "Sora", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings balance so a single word never drops alone on the last line */
+h1,
+h2,
+h3,
+.dfx-balance {
+  text-wrap: balance;
+}
+
+.h-section {
+  font-size: clamp(28px, 5.5vw, 42px);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+.h-hero {
+  font-size: clamp(34px, 5vw, 58px);
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+/* thin scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(127, 127, 160, 0.3);
+  border-radius: 4px;
+}
+
+/* Image-slot number badge (placeholder) */
+.dfx-imgnum {
+  background: rgba(7, 1, 24, 0.82);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+.dfx-imgnum-n {
+  display: inline;
+}
+.dfx-imgnum-d {
+  display: none;
+}
+.dark .dfx-imgnum-n {
+  display: none;
+}
+.dark .dfx-imgnum-d {
+  display: inline;
+}
+
+/* ── Kept lightweight keyframes only (heavy field animations dropped) ────────── */
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes dfx-marq {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes lds-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+@keyframes pulseDot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+}
+@keyframes liveChipGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(34, 197, 94, 0);
+  }
+}
+@keyframes dfxLivePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+@keyframes loginFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Responsive: collapse multi-column inline grids, tame padding ──
+   Matches the original [style*=...] attribute selectors against inline styles. */
+@media (max-width: 960px) {
+  [style*="grid-template-columns:repeat(4"],
+  [style*="grid-template-columns: repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  [style*="grid-template-columns:repeat(3"],
+  [style*="grid-template-columns: repeat(3"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (max-width: 600px) {
+  [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+  [style*="flex-direction:row"] {
+    flex-wrap: wrap !important;
+  }
+}
+
+/* ── Performance: honor reduced-motion globally ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
